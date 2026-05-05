@@ -1,0 +1,4 @@
+<resources>
+
+    <style name="Theme.Amswerer" parent="Theme.MaterialComponents.Light" />
+</resources>
