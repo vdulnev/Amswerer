@@ -17,8 +17,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             AmswererTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    CameraScreen(
-                        modifier = Modifier.padding(innerPadding)
+                    AppNavigation(
+                        modifier = Modifier.padding(innerPadding),
                     )
                 }
             }

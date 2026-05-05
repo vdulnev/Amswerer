@@ -1,8 +1,24 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.google.devtools.ksp)
     alias(libs.plugins.jetbrains.kotlin.plugin.serialization)
+}
+
+val geminiApiKey: String = run {
+    val localProps = rootProject.file("local.properties")
+    val fromLocal = if (localProps.exists()) {
+        Properties().apply { localProps.inputStream().use { load(it) } }
+            .getProperty("GEMINI_API_KEY")
+    } else {
+        null
+    }
+    fromLocal
+        ?: project.findProperty("GEMINI_API_KEY") as String?
+        ?: System.getenv("GEMINI_API_KEY")
+        ?: ""
 }
 
 android {
@@ -15,8 +31,8 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-        
-        buildConfigField("String", "GEMINI_API_KEY", "\"${project.findProperty("GEMINI_API_KEY") ?: ""}\"")
+
+        buildConfigField("String", "GEMINI_API_KEY", "\"$geminiApiKey\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
